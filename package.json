@@ -1,0 +1,44 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "@mdi/font": "^5.3.45",
+        "@nuxtjs/vuetify": "^1.11.2",
+        "axios": "^0.19",
+        "bootstrap": "^4.0.0",
+        "browser-sync": "^2.26.7",
+        "browser-sync-webpack-plugin": "^2.0.1",
+        "buefy": "^0.8.20",
+        "cross-env": "^7.0",
+        "jquery": "^3.2",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.13",
+        "popper.js": "^1.12",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.20.1",
+        "sass-loader": "^8.0.2",
+        "vue": "^2.5.17",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "bulma": "^0.8.2",
+        "cleave.js": "^1.6.0",
+        "node-sass": "^4.14.1",
+        "v-money": "^0.8.1",
+        "vue-avatar": "^2.3.0",
+        "vue-axios": "^2.1.5",
+        "vue-cleave-directive": "^1.0.1",
+        "vue-currency-filter": "^5.1.0",
+        "vue-moment": "^4.1.0",
+        "vue-router": "^3.3.2",
+        "vuetify": "^2.2.32"
+    }
+}
