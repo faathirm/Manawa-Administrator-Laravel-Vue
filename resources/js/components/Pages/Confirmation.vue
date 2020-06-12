@@ -47,7 +47,7 @@
                                 {{ props.row.id }}
                             </b-table-column>
                             <b-table-column field="name" label="NAME" cellClass="text-capitalize">
-                                <template v-if="showDetailIcon">
+                                <template v-if="showDetailIcon && props.row.transaction.customer != null">
                                     <a @click="toggle(props.row)">
                                         <avatar :username="props.row.transaction.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.transaction.customer.name }}
                                     </a>

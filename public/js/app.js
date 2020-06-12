@@ -2113,7 +2113,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/transaction/confirmation?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/transaction/confirmation?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -2159,7 +2159,7 @@ __webpack_require__.r(__webpack_exports__);
     addData: function addData(id) {
       var _this2 = this;
 
-      axios.post('http://localhost:8000/api/transaction/confirmation', {
+      axios.post('http://manawa.akugap.tech/api/transaction/confirmation', {
         status: this.statusnya,
         id: id
       }).then(function (response) {
@@ -2183,7 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/transaction/confirmation/delete', {
+          axios.post('http://manawa.akugap.tech/api/transaction/confirmation/delete', {
             result: id
           }).then(function (response) {
             console.log(response);
@@ -2343,7 +2343,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/customer?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/customer?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -2542,7 +2542,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsync: function loadAsync() {
       var _this = this;
 
-      axios.post("http://localhost:8000/api/customer/detail", {
+      axios.post("http://manawa.akugap.tech/api/customer/detail", {
         id: this.$route.params.id
       }).then(function (response) {
         _this.data.fullname = response.data.name;
@@ -2768,7 +2768,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/customerlivestock?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/customerlivestock?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -3031,7 +3031,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsync: function loadAsync() {
       var _this = this;
 
-      axios.post("http://localhost:8000/api/customerlivestock/detail", {
+      axios.post("http://manawa.akugap.tech/api/customerlivestock/detail", {
         id: this.$route.params.id
       }).then(function (response) {
         _this.data = response.data[0];
@@ -3070,7 +3070,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.file.name) {
         formData.append('file', this.file);
-        axios.post('http://localhost:8000/api/customerlivestock/report', formData, {
+        axios.post('http://manawa.akugap.tech/api/customerlivestock/report', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -3116,7 +3116,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/customerlivestock/reportdelete', {
+          axios.post('http://manawa.akugap.tech/api/customerlivestock/reportdelete', {
             result: id
           }).then(function (response) {
             _this3.$buefy.toast.open({
@@ -3342,8 +3342,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      console.log("http://localhost:8000/api/farmer?".concat(params));
-      axios.get("http://localhost:8000/api/farmer?".concat(params)).then(function (response) {
+      console.log("http://manawa.akugap.tech/api/farmer?".concat(params));
+      axios.get("http://manawa.akugap.tech/api/farmer?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -3413,7 +3413,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.isEdit) {
-        axios.post('http://localhost:8000/api/farmer/update', {
+        axios.post('http://manawa.akugap.tech/api/farmer/update', {
           result: this.form,
           id: this.currentId
         }).then(function (response) {
@@ -3429,7 +3429,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://localhost:8000/api/farmer', {
+        axios.post('http://manawa.akugap.tech/api/farmer', {
           result: this.form
         }).then(function (response) {
           _this2.clearField();
@@ -3455,7 +3455,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/farmer/delete', {
+          axios.post('http://manawa.akugap.tech/api/farmer/delete', {
             result: id
           }).then(function (response) {
             _this3.$buefy.toast.open({
@@ -3694,9 +3694,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
-      this.loading = true; // console.log(`http://localhost:8000/api/admin?${params}`);
+      this.loading = true; // console.log(`http://manawa.akugap.tech/api/admin?${params}`);
 
-      axios.get("http://localhost:8000/api/animal?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/animal?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -3757,7 +3757,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.isEdit) {
-        axios.post('http://localhost:8000/api/animal/update', {
+        axios.post('http://manawa.akugap.tech/api/animal/update', {
           result: this.form,
           id: this.currentId
         }).then(function (response) {
@@ -3775,7 +3775,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://localhost:8000/api/animal', {
+        axios.post('http://manawa.akugap.tech/api/animal', {
           result: this.form
         }).then(function (response) {
           console.log(response);
@@ -3803,7 +3803,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/animal/delete', {
+          axios.post('http://manawa.akugap.tech/api/animal/delete', {
             result: id
           }).then(function (response) {
             console.log(response);
@@ -4106,7 +4106,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/farmvariety?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/farmvariety?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -4187,7 +4187,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.isEdit) {
-        axios.post('http://localhost:8000/api/variety/update', {
+        axios.post('http://manawa.akugap.tech/api/variety/update', {
           result: this.form,
           id: this.currentId
         }).then(function (response) {
@@ -4203,7 +4203,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://localhost:8000/api/farmvariety', {
+        axios.post('http://manawa.akugap.tech/api/farmvariety', {
           result: this.form
         }).then(function (response) {
           console.log(response);
@@ -4231,7 +4231,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/variety/delete', {
+          axios.post('http://manawa.akugap.tech/api/variety/delete', {
             result: id
           }).then(function (response) {
             _this3.$buefy.toast.open({
@@ -4247,7 +4247,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllAnimal: function getAllAnimal() {
       var _this4 = this;
 
-      axios.get('http://localhost:8000/api/variety/animal').then(function (response) {
+      axios.get('http://manawa.akugap.tech/api/variety/animal').then(function (response) {
         _this4.allAnimal = response.data;
       });
     },
@@ -4264,14 +4264,14 @@ __webpack_require__.r(__webpack_exports__);
     getFarm: function getFarm() {
       var _this5 = this;
 
-      axios.get('http://localhost:8000/api/farmvariety/farm').then(function (response) {
+      axios.get('http://manawa.akugap.tech/api/farmvariety/farm').then(function (response) {
         _this5.allFarm = response.data;
       });
     },
     getVariety: function getVariety() {
       var _this6 = this;
 
-      axios.get('http://localhost:8000/api/farmvariety/variety').then(function (response) {
+      axios.get('http://manawa.akugap.tech/api/farmvariety/variety').then(function (response) {
         _this6.allVariety = response.data;
       });
     }
@@ -4473,7 +4473,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/variety?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/variety?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -4535,7 +4535,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.isEdit) {
-        axios.post('http://localhost:8000/api/variety/update', {
+        axios.post('http://manawa.akugap.tech/api/variety/update', {
           result: this.form,
           id: this.currentId
         }).then(function (response) {
@@ -4551,7 +4551,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://localhost:8000/api/variety', {
+        axios.post('http://manawa.akugap.tech/api/variety', {
           result: this.form
         }).then(function (response) {
           _this2.clearField();
@@ -4577,7 +4577,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/variety/delete', {
+          axios.post('http://manawa.akugap.tech/api/variety/delete', {
             result: id
           }).then(function (response) {
             _this3.$buefy.toast.open({
@@ -4593,7 +4593,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllAnimal: function getAllAnimal() {
       var _this4 = this;
 
-      axios.get('http://localhost:8000/api/variety/animal').then(function (response) {
+      axios.get('http://manawa.akugap.tech/api/variety/animal').then(function (response) {
         _this4.allAnimal = response.data;
       });
     }
@@ -4766,7 +4766,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/transaction?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/transaction?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -4983,7 +4983,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/withdrawal?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/withdrawal?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -5036,7 +5036,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/withdrawal/delete', {
+          axios.post('http://manawa.akugap.tech/api/withdrawal/delete', {
             id: id
           }).then(function (response) {
             _this2.$buefy.toast.open({
@@ -5060,7 +5060,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.file.name) {
         formData.append('file', this.file);
-        axios.post('http://localhost:8000/api/withdrawal/upload', formData, {
+        axios.post('http://manawa.akugap.tech/api/withdrawal/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -5091,7 +5091,7 @@ __webpack_require__.r(__webpack_exports__);
     declineData: function declineData(id) {
       var _this4 = this;
 
-      axios.post('http://localhost:8000/api/withdrawal/decline', {
+      axios.post('http://manawa.akugap.tech/api/withdrawal/decline', {
         id: id
       }).then(function (response) {
         _this4.$buefy.toast.open({
@@ -5302,7 +5302,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://localhost:8000/api/admin?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/admin?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -5377,7 +5377,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.passwordMatch()) {
         //UPDATE
         if (this.isEdit) {
-          axios.post('http://localhost:8000/api/admin/update', {
+          axios.post('http://manawa.akugap.tech/api/admin/update', {
             result: this.form,
             id: this.currentId
           }).then(function (response) {
@@ -5393,7 +5393,7 @@ __webpack_require__.r(__webpack_exports__);
             _this2.loadAsyncData();
           }); //INSERT
         } else {
-          axios.post('http://localhost:8000/api/admin', {
+          axios.post('http://manawa.akugap.tech/api/admin', {
             result: this.form
           }).then(function (response) {
             _this2.clearField();
@@ -5420,7 +5420,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://localhost:8000/api/admin/delete', {
+          axios.post('http://manawa.akugap.tech/api/admin/delete', {
             result: id
           }).then(function (response) {
             _this3.$buefy.toast.open({
@@ -59110,7 +59110,8 @@ var render = function() {
                               }
                             },
                             [
-                              _vm.showDetailIcon
+                              _vm.showDetailIcon &&
+                              props.row.transaction.customer != null
                                 ? [
                                     _c(
                                       "a",
@@ -87000,8 +87001,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Projects\VueLara\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Projects\VueLara\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Projects\ManawaAdminLaravelVue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Projects\ManawaAdminLaravelVue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
