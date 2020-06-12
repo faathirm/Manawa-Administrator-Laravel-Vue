@@ -58750,13 +58750,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row d-flex justify-content-between" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _vm._v("\n            test\n        ")
-      ]),
+      _c("div", { staticClass: "col-md-4" }),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _vm._v("\n            testo\n        ")
-      ])
+      _c("div", { staticClass: "col-md-4" })
     ])
   }
 ]
@@ -59111,7 +59107,7 @@ var render = function() {
                             },
                             [
                               _vm.showDetailIcon &&
-                              props.row.transaction.customer != null
+                              props.row.transaction != null
                                 ? [
                                     _c(
                                       "a",

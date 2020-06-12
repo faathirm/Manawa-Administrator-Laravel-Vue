@@ -2,10 +2,10 @@
     <div class="p-5">
         <div class="row d-flex justify-content-between">
             <div class="col-md-4">
-                test
+                
             </div>
             <div class="col-md-4">
-                testo
+
             </div>
         </div>
         <div class="row">
