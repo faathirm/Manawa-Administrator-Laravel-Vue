@@ -166,8 +166,8 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                // console.log(`http://localhost:8000/api/admin?${params}`);
-                axios.get(`http://localhost:8000/api/animal?${params}`).then(response => {
+                // console.log(`http://manawa.akugap.tech/api/admin?${params}`);
+                axios.get(`http://manawa.akugap.tech/api/animal?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -223,7 +223,7 @@
             },
             addData(){
                 if(this.isEdit){
-                    axios.post('http://localhost:8000/api/animal/update', {
+                    axios.post('http://manawa.akugap.tech/api/animal/update', {
                         result: this.form,
                         id: this.currentId
                     }).then(response => {
@@ -235,7 +235,7 @@
                     })
                     //INSERT
                 }else{
-                    axios.post('http://localhost:8000/api/animal', {
+                    axios.post('http://manawa.akugap.tech/api/animal', {
                         result: this.form
                     }).then(response => {
                         console.log(response)
@@ -254,7 +254,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/animal/delete', {
+                        axios.post('http://manawa.akugap.tech/api/animal/delete', {
                             result: id
                         }).then(response => {
                             console.log(response)

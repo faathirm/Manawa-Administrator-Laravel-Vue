@@ -158,7 +158,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://localhost:8000/api/transaction/confirmation?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/transaction/confirmation?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -198,7 +198,7 @@
                 this.$refs.table.toggleDetails(row)
             },
             addData(id){
-                axios.post('http://localhost:8000/api/transaction/confirmation', {
+                axios.post('http://manawa.akugap.tech/api/transaction/confirmation', {
                     status: this.statusnya,
                     id: id
                 }).then(response => {
@@ -215,7 +215,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/transaction/confirmation/delete', {
+                        axios.post('http://manawa.akugap.tech/api/transaction/confirmation/delete', {
                             result: id
                         }).then(response => {
                             console.log(response)

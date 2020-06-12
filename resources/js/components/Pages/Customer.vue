@@ -130,7 +130,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://localhost:8000/api/customer?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/customer?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){

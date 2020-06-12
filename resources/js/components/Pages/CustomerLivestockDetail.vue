@@ -182,7 +182,7 @@
         },
         methods: {
             loadAsync(){
-                axios.post("http://localhost:8000/api/customerlivestock/detail",{
+                axios.post("http://manawa.akugap.tech/api/customerlivestock/detail",{
                     id: this.$route.params.id
                 }).then(response => {
                     this.data = response.data[0];
@@ -218,7 +218,7 @@
                 formData.append('report_desc',this.report_desc);
                 if(this.file.name){
                     formData.append('file',this.file);
-                    axios.post('http://localhost:8000/api/customerlivestock/report', formData, {headers: {'Content-Type': 'multipart/form-data'}
+                    axios.post('http://manawa.akugap.tech/api/customerlivestock/report', formData, {headers: {'Content-Type': 'multipart/form-data'}
                     }).then(response => {
                         this.file = {};
                         this.berat = '';
@@ -244,7 +244,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/customerlivestock/reportdelete', {
+                        axios.post('http://manawa.akugap.tech/api/customerlivestock/reportdelete', {
                             result: id
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})

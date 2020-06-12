@@ -271,7 +271,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://localhost:8000/api/farmvariety?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/farmvariety?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -347,7 +347,7 @@
             },
             addData(){
                 if(this.isEdit){
-                    axios.post('http://localhost:8000/api/variety/update', {
+                    axios.post('http://manawa.akugap.tech/api/variety/update', {
                         result: this.form,
                         id: this.currentId
                     }).then(response => {
@@ -358,7 +358,7 @@
                     })
                     //INSERT
                 }else{
-                    axios.post('http://localhost:8000/api/farmvariety', {
+                    axios.post('http://manawa.akugap.tech/api/farmvariety', {
                         result: this.form
                     }).then(response => {
                         console.log(response)
@@ -377,7 +377,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/variety/delete', {
+                        axios.post('http://manawa.akugap.tech/api/variety/delete', {
                             result: id
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
@@ -387,7 +387,7 @@
                 })
             },
             getAllAnimal() {
-                axios.get('http://localhost:8000/api/variety/animal').then(response => {
+                axios.get('http://manawa.akugap.tech/api/variety/animal').then(response => {
                     this.allAnimal = response.data;
                 });
             },
@@ -402,12 +402,12 @@
                 }
             },
             getFarm() {
-                axios.get('http://localhost:8000/api/farmvariety/farm').then(response => {
+                axios.get('http://manawa.akugap.tech/api/farmvariety/farm').then(response => {
                     this.allFarm = response.data;
                 });
             },
             getVariety() {
-                axios.get('http://localhost:8000/api/farmvariety/variety').then(response => {
+                axios.get('http://manawa.akugap.tech/api/farmvariety/variety').then(response => {
                     this.allVariety = response.data;
                 });
             }

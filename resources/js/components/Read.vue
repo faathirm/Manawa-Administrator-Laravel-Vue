@@ -185,7 +185,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://localhost:8000/api/admin?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/admin?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -254,7 +254,7 @@
                 if(this.passwordMatch()){
                     //UPDATE
                     if(this.isEdit){
-                        axios.post('http://localhost:8000/api/admin/update', {
+                        axios.post('http://manawa.akugap.tech/api/admin/update', {
                             result: this.form,
                             id: this.currentId
                         }).then(response => {
@@ -265,7 +265,7 @@
                         })
                     //INSERT
                     }else{
-                        axios.post('http://localhost:8000/api/admin', {
+                        axios.post('http://manawa.akugap.tech/api/admin', {
                             result: this.form
                         }).then(response => {
                             this.clearField()
@@ -284,7 +284,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/admin/delete', {
+                        axios.post('http://manawa.akugap.tech/api/admin/delete', {
                             result: id
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})

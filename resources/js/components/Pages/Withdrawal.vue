@@ -159,7 +159,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://localhost:8000/api/withdrawal?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/withdrawal?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -206,7 +206,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/withdrawal/delete', {
+                        axios.post('http://manawa.akugap.tech/api/withdrawal/delete', {
                             id: id
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
@@ -223,7 +223,7 @@
                 formData.append('id',id);
                 if(this.file.name){
                     formData.append('file',this.file);
-                    axios.post('http://localhost:8000/api/withdrawal/upload', formData, {headers: {'Content-Type': 'multipart/form-data'}
+                    axios.post('http://manawa.akugap.tech/api/withdrawal/upload', formData, {headers: {'Content-Type': 'multipart/form-data'}
                     }).then(response => {
                         this.file = {};
                         this.$buefy.toast.open({message: `Upload Success`, position: 'is-bottom'});
@@ -236,7 +236,7 @@
                 }
             },
             declineData(id){
-                axios.post('http://localhost:8000/api/withdrawal/decline', {
+                axios.post('http://manawa.akugap.tech/api/withdrawal/decline', {
                     id: id
                 }).then(response => {
                     this.$buefy.toast.open({message: `Decline Success`, position: 'is-bottom'})

@@ -197,8 +197,8 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                console.log(`http://localhost:8000/api/farmer?${params}`);
-                axios.get(`http://localhost:8000/api/farmer?${params}`).then(response => {
+                console.log(`http://manawa.akugap.tech/api/farmer?${params}`);
+                axios.get(`http://manawa.akugap.tech/api/farmer?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -264,7 +264,7 @@
             },
             addData(){
                 if(this.isEdit){
-                    axios.post('http://localhost:8000/api/farmer/update', {
+                    axios.post('http://manawa.akugap.tech/api/farmer/update', {
                         result: this.form,
                         id: this.currentId
                     }).then(response => {
@@ -275,7 +275,7 @@
                     })
                     //INSERT
                 }else{
-                    axios.post('http://localhost:8000/api/farmer', {
+                    axios.post('http://manawa.akugap.tech/api/farmer', {
                         result: this.form
                     }).then(response => {
                         this.clearField()
@@ -293,7 +293,7 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://localhost:8000/api/farmer/delete', {
+                        axios.post('http://manawa.akugap.tech/api/farmer/delete', {
                             result: id
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})

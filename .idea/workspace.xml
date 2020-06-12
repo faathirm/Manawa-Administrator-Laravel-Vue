@@ -13,6 +13,9 @@
       <executable />
     </execution>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/brick/math" />
@@ -125,7 +128,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EzDesk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager">
@@ -154,6 +157,7 @@
       <workItem from="1591848323606" duration="128000" />
       <workItem from="1591858228696" duration="46970000" />
       <workItem from="1591953038136" duration="13301000" />
+      <workItem from="1592003015908" duration="84000" />
     </task>
     <servers />
   </component>

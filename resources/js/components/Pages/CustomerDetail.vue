@@ -135,7 +135,7 @@
         },
         methods: {
           loadAsync(){
-              axios.post("http://localhost:8000/api/customer/detail",{
+              axios.post("http://manawa.akugap.tech/api/customer/detail",{
                   id: this.$route.params.id
               }).then(response => {
                   this.data.fullname = response.data.name;
