@@ -123,6 +123,7 @@ class CustomerController extends Controller
         $poi->id_user = $request->id;
         $poi->jumlah = 100;
         $poi->status = 0;
+        $poi->deskripsi = "Klaim voucher rewardku";
         $poi->save();
 
         $vou = new Voucher();

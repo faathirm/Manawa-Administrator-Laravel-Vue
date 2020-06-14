@@ -12,4 +12,9 @@ class Voucher extends Model
     protected $casts = [
         'created_at' => 'date:Y-m-d H:i:s'
     ];
+
+    public function customer()
+    {
+        return $this->hasOne('App\Customer','id','id_user');
+    }
 }

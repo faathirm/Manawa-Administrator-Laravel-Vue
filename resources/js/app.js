@@ -13,6 +13,7 @@ import VueAxios from 'vue-axios';
 import Axios from 'axios';
 import Buefy from 'buefy'
 import VueCurrencyFilter from 'vue-currency-filter'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 // import 'buefy/dist/buefy.css'
 
 Vue.use(VueRouter,VueAxios,Axios);
@@ -27,6 +28,7 @@ Vue.use(VueCurrencyFilter,
         symbolPosition: 'front',
         symbolSpacing: true
     });
+Vue.use( CKEditor );
 
 import App from './components/App.vue';
 import Read from './components/Read.vue';
@@ -40,6 +42,8 @@ import CustomerLivestockDetail from './components/Pages/CustomerLivestockDetail'
 import Transaction from './components/Pages/Transaction';
 import Confirmation from './components/Pages/Confirmation';
 import Withdrawal from './components/Pages/Withdrawal';
+import Notificaton from './components/Pages/Notification';
+import Voucher from './components/Pages/Voucher';
 
 const routes = [
     {
@@ -101,6 +105,16 @@ const routes = [
         name: 'withdrawal',
         path: '/transaction/withdrawal',
         component: Withdrawal
+    },
+    {
+        name: 'notification',
+        path: '/crm/notification',
+        component: Notificaton
+    },
+    {
+        name: 'voucher',
+        path: '/crm/voucher',
+        component: Voucher
     }
 ]
 

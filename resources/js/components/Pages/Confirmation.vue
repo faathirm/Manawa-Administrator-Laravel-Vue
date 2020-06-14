@@ -47,14 +47,16 @@
                                 {{ props.row.id }}
                             </b-table-column>
                             <b-table-column field="name" label="NAME" cellClass="text-capitalize">
-                                <template v-if="showDetailIcon && props.row.transaction != null">
-                                    <a @click="toggle(props.row)">
+                                <div v-if="props.row.transaction != null">
+                                    <template v-if="showDetailIcon">
+                                        <a @click="toggle(props.row)">
+                                            <avatar :username="props.row.transaction.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.transaction.customer.name }}
+                                        </a>
+                                    </template>
+                                    <template v-else>
                                         <avatar :username="props.row.transaction.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.transaction.customer.name }}
-                                    </a>
-                                </template>
-                                <template v-else>
-                                    <avatar :username="props.row.transaction.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.transaction.customer.name }}
-                                </template>
+                                    </template>
+                                </div>
                             </b-table-column>
                             <b-table-column field="verified_at" label="STATUS" cellClass="text-capitalize">
                                 <template v-if="props.row.verified_at != null">Verified</template>

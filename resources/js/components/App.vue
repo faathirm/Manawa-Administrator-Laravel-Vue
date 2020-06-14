@@ -1,11 +1,19 @@
 <template>
-    <div class="p-5">
+    <div class="pl-5 pr-5 pb-5 pt-3">
         <div class="row d-flex justify-content-between">
-            <div class="col-md-4">
-                
+            <div class="col-md-2 p-0 d-flex justify-content-start align-items-center">
+                <p class="title is-3 ml-4 has-text-white font-weight-bold">Manawa</p>
             </div>
-            <div class="col-md-4">
-
+            <div class="col-md-4 p-0 ">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-md-2 d-flex justify-content-end">
+                        <avatar :username="'John Doe'" :size="48" backgroundColor="#e74c3c" color="white" :inline="true"></avatar>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="title is-5 has-text-white">John Doe</p>
+                        <p class="subtitle is-5 has-text-white">Administrator</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -29,11 +37,13 @@
 
 <script>
     import MainMenu from './MainMenu'
+    import {Avatar} from "vue-avatar";
 
     export default {
         name: 'App',
         components: {
-            MainMenu
+            MainMenu,
+            Avatar
         }
     }
 </script>
@@ -42,6 +52,7 @@
     /*@import '~buefy/src/scss/buefy';*/
     @import "~bulma/sass/utilities/_all";
 
+    $sidebar-width: 400px;
     $primary: #27AE60;
     $primary-invert: findColorInvert($primary);
     $primary-agakdark:#219652;

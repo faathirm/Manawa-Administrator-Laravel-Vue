@@ -70,6 +70,15 @@ Route::post('/withdrawal/upload','WithdrawController@update');
 Route::post('/withdrawal/decline','WithdrawController@decline');
 Route::post('/withdrawal/delete','WithdrawController@delete');
 
+//Notification
+Route::post('/crm/notification/post','CRMController@post');
+Route::get('/testaja','CRMController@test');
+
+Route::get('/voucher','VoucherController@all');
+Route::post('/voucher','VoucherController@new');
+Route::post('/voucher/update','VoucherController@update');
+Route::post('/voucher/delete','VoucherController@delete');
+
 //MOBILE
 Route::get('/help/category','HelpController@categoryList');
 Route::get('/help/category/{id}','HelpController@articleList');

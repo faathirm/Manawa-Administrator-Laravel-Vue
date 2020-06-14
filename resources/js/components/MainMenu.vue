@@ -23,5 +23,12 @@
             <li><router-link tag="a" to="/transaction/confirmation" class="text-decoration-none"><b-icon icon="check-all"/> Confirmation</router-link></li>
             <li><router-link tag="a" to="/transaction/withdrawal" class="text-decoration-none"><b-icon icon="cash-refund"/> Withdrawal</router-link></li>
         </ul>
+        <p class="menu-label">
+            Transaction
+        </p>
+        <ul class="menu-list">
+            <li><router-link tag="a" to="/crm/notification" class="text-decoration-none"><b-icon icon="chat"/> Notification</router-link></li>
+            <li><router-link tag="a" to="/crm/voucher" class="text-decoration-none"><b-icon icon="ticket-percent"/> Voucher</router-link></li>
+        </ul>
     </aside>
 </template>
