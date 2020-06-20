@@ -29,6 +29,7 @@
         <ul class="menu-list">
             <li><router-link tag="a" to="/crm/notification" class="text-decoration-none"><b-icon icon="chat"/> Notification</router-link></li>
             <li><router-link tag="a" to="/crm/voucher" class="text-decoration-none"><b-icon icon="ticket-percent"/> Voucher</router-link></li>
+            <li><router-link tag="a" to="/crm/ticketing" class="text-decoration-none"><b-icon icon="alert-octagon"/> Ticketing</router-link></li>
         </ul>
     </aside>
 </template>

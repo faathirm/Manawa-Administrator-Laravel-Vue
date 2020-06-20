@@ -74,10 +74,16 @@ Route::post('/withdrawal/delete','WithdrawController@delete');
 Route::post('/crm/notification/post','CRMController@post');
 Route::get('/testaja','CRMController@test');
 
+//Voucher
 Route::get('/voucher','VoucherController@all');
 Route::post('/voucher','VoucherController@new');
 Route::post('/voucher/update','VoucherController@update');
 Route::post('/voucher/delete','VoucherController@delete');
+
+//Ticketing
+Route::get('/ticketing','TicketingController@all');
+Route::post('/ticketing/update','TicketingController@update');
+Route::post('/ticketing/delete','TicketingController@delete');
 
 //MOBILE
 Route::get('/help/category','HelpController@categoryList');
@@ -87,3 +93,4 @@ Route::post('/help/article/like','HelpController@like');
 Route::get('/reward/{iduser}','CustomerController@getReward');
 Route::post('/reward/addvoucher','CustomerController@addVoucher');
 Route::get('/reward/allpoint/{id}','CustomerController@allPoint');
+Route::post('/ticketing/new','TicketingController@new');

@@ -18,6 +18,7 @@ class CRMController extends Controller
             $details = [
                 'greeting' => 'Hai, '.$data[$x]["nama"],
                 'body' => $request->message,
+                'judul'=>"Notifikasi Manawa",
             ];
 
             \Illuminate\Support\Facades\Notification::route('mail', $data[$x]["email"])->notify(new ManawaNotification($details));

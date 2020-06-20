@@ -46,15 +46,31 @@
         },
         methods:{
             sendEmail(){
-                this.isLoading = true;
-                axios.post('http://manawa.akugap.tech/api/crm/notification/post', {
-                    message: this.editorData
-                }).then(response => {
-                    this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
-                    console.log("sukses");
-                    this.isLoading = false;
-                    this.editorData = '';
-                })
+                if(this.editorData == null){
+                    this.$buefy.snackbar.open({
+                        duration: 5000,
+                        message: 'Isi Pesan Terlebih Dahulu Untuk Melakukan<br>Broadcast Notifikasi',
+                        type: 'is-danger',
+                        position: 'is-top-right',
+                        queue: false,
+                        onAction: () => {
+                            this.$buefy.toast.open({
+                                message: 'Action pressed',
+                                queue: false
+                            })
+                        }
+                    })
+                }else{
+                    this.isLoading = true;
+                    axios.post('http://manawa.akugap.tech/api/crm/notification/post', {
+                        message: this.editorData
+                    }).then(response => {
+                        this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
+                        console.log("sukses");
+                        this.isLoading = false;
+                        this.editorData = '';
+                    })
+                }
             }
         }
     }

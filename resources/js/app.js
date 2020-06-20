@@ -44,6 +44,7 @@ import Confirmation from './components/Pages/Confirmation';
 import Withdrawal from './components/Pages/Withdrawal';
 import Notificaton from './components/Pages/Notification';
 import Voucher from './components/Pages/Voucher';
+import Ticketing from "./components/Pages/Ticketing";
 
 const routes = [
     {
@@ -115,6 +116,11 @@ const routes = [
         name: 'voucher',
         path: '/crm/voucher',
         component: Voucher
+    },
+    {
+        name: 'ticketing',
+        path: '/crm/ticketing',
+        component: Ticketing
     }
 ]
 

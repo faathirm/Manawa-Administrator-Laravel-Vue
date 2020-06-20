@@ -56,6 +56,8 @@
     $primary: #27AE60;
     $primary-invert: findColorInvert($primary);
     $primary-agakdark:#219652;
+    $snackbar-background-color:$danger;
+    $snackbar-color:$danger-invert;
 
     $colors: (
         "white": ($white, $black),

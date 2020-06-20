@@ -133,26 +133,26 @@
                         <b-input maxlength="200" v-model="form.formDescription" type="textarea" required></b-input>
                     </b-field>
                     <b-field label="Amount" :label-position="'on-border'">
-                        <b-input v-cleave="{ numeral: true, numeralThousandsGroupStyle: 'thousand'}" v-model="form.formAmount" required></b-input>
+                        <b-input v-model="form.formAmount" required></b-input>
                     </b-field>
                     <b-field label="Max Usage" :label-position="'on-border'">
                         <b-input type="number" icon="ticket-confirmation" v-model="form.formMaxUsage" required></b-input>
                     </b-field>
                     <b-field label="Available At" :label-position="'on-border'">
-                        <b-datetimepicker
+                        <b-datepicker
                             v-model="form.formAvailableAt"
                             placeholder="Available At"
                             icon="calendar-today"
-                            :timepicker="{ enableSeconds: true}" required>
-                        </b-datetimepicker>
+                            required>
+                        </b-datepicker>
                     </b-field>
                     <b-field label="Expired At" :label-position="'on-border'">
-                        <b-datetimepicker
+                        <b-datepicker
                             v-model="form.formExpiredAt"
                             placeholder="Expired At"
                             icon="calendar-today"
-                            :timepicker="{ enableSeconds: true}" required>
-                        </b-datetimepicker>
+                            required>
+                        </b-datepicker>
                     </b-field>
                     <button class="btn btn-success btn-block">Submit</button>
                 </form>
@@ -273,22 +273,25 @@
             },
             editForm(data){
                 this.clearField();
-                console.log(data)
+                console.log(data.amount)
                 this.currentId = data.id;
                 this.form.formName = data.name;
                 this.form.formCode = data.code;
                 this.form.formDescription = data.description;
                 this.form.formAmount = data.amount;
                 this.form.formMaxUsage = data.max_usage;
-                this.form.formAvailableAt = data.available_at;
-                this.form.formExpiredAt = data.expired_at;
+                this.form.formAvailableAt = new Date(data.available_at.toString());
+                this.form.formExpiredAt = new Date(data.expired_at.toString());
                 this.isEdit = true;
                 this.open = true;
             },
             addData(){
                 if(this.isEdit){
+                    console.log(this.format_date(this.form.formAvailableAt));
                     axios.post('http://manawa.akugap.tech/api/voucher/update', {
                         result: this.form,
+                        available: this.format_date(this.form.formAvailableAt),
+                        expired: this.format_date(this.form.formExpiredAt),
                         id: this.currentId
                     }).then(response => {
                         console.log(response)
@@ -300,7 +303,9 @@
                     //INSERT
                 }else{
                     axios.post('http://manawa.akugap.tech/api/voucher', {
-                        result: this.form
+                        result: this.form,
+                        available: this.format_date(this.form.formAvailableAt),
+                        expired: this.format_date(this.form.formExpiredAt)
                     }).then(response => {
                         console.log(response)
                         this.clearField()
@@ -327,6 +332,20 @@
                         })
                     }
                 })
+            },
+            format_date( date ) {
+                if (typeof date == "string") {
+                    date = new Date(date);
+                }
+
+                var year = date.getFullYear();
+                var month = (1 + date.getMonth()).toString();
+                month = month.length > 1 ? month : '0' + month;
+
+                var day = date.getDate().toString();
+                day = day.length > 1 ? day : '0' + day;
+
+                return year+'-'+month+'-'+day;
             }
         },
         created(){
