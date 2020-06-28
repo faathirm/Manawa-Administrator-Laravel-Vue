@@ -54,7 +54,7 @@
                                 </template>
                             </b-table-column>
                             <b-table-column field="journal_desc" label="DESCRIPTION" cellClass="text-capitalize" sortable>
-                                <router-link :to="'/livestock/customer/'+props.row.livestock.id" v-if="props.row.journal_desc == 'Pembelian ternak'">
+                                <router-link :to="'/backend/livestock/customer/'+props.row.livestock.id" v-if="props.row.journal_desc == 'Pembelian ternak'">
                                     {{ props.row.journal_desc }}
                                 </router-link>
                                 <template v-else>

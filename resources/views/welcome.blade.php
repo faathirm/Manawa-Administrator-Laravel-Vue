@@ -13,9 +13,15 @@
         }
     </style>
     <script src="{{ mix('js/app.js') }}" type="text/javascript" defer></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="user-id" content="{{ \Illuminate\Support\Facades\Auth::user()->name }}">
 </head>
 
 <body style="background-image: linear-gradient(to right, #27AE60 , #3EFE8F); font-family: 'Poppins', sans-serif;">
-<div id="app"></div>
+@if(\Illuminate\Support\Facades\Auth::check())
+    <div id="app"></div>
+@else
+    Belum login
+@endif
 </body>
 </html>

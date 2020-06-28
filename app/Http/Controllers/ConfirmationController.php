@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Confirmation;
+use App\Point;
 use Illuminate\Http\Request;
 
 class ConfirmationController extends Controller
@@ -40,6 +41,16 @@ class ConfirmationController extends Controller
             $conf->verified_at = Date('Y-m-d H:i:s');
             $conf->denied_by = null;
             $conf->denied_at = null;
+
+            $point = new Point();
+            $point->id_user = $conf->transaction->customer->id;
+            $point->jumlah = 10;
+            $point->status = 1;
+            $point->deskripsi = "Pembelian Hewan Ternak";
+            $point->created_at = Date("Y-m-d H:i:s");
+            $point->updated_at = Date("Y-m-d H:i:s");
+            $point->save();
+
         }else if($request->status == 3){
             $conf->denied_by = 1;
             $conf->denied_at = Date('Y-m-d H:i:s');

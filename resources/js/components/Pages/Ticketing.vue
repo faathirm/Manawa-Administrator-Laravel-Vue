@@ -1,10 +1,7 @@
 <template>
     <section>
-        <div class="p-4">
-            <div class="row d-flex justify-content-between">
-                <div class="col-md-4">
-                    <b-button type="is-dark" icon-left="plus" @click="addForm(), clearField()"> New Entry </b-button>
-                </div>
+        <div>
+            <div class="row d-flex justify-content-end">
                 <div class="col-md-4">
                     <b-field position="is-right">
                         <b-input placeholder="Search..." type="search" icon="magnify" v-model="searchInput"></b-input>
@@ -46,18 +43,18 @@
                             <b-table-column field="name" label="NAME" cellClass="text-capitalize" sortable>
                                 <template v-if="showDetailIcon">
                                     <a @click="toggle(props.row)">
-                                        <avatar :username="props.row.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.name }}
+                                        <avatar username="isye s adhiwinaya" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> Isye S. Adhiwinaya
                                     </a>
                                 </template>
                                 <template v-else>
-                                    <avatar :username="props.row.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.name }}
+                                    <avatar username="isye s adhiwinaya" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> Isye S. Adhiwinaya
                                 </template>
                             </b-table-column>
-                            <b-table-column field="email" label="EMAIL" sortable>
-                                {{ props.row.email }}
+                            <b-table-column field="name" label="CATEGORY" cellClass="text-capitalize" sortable>
+                                Teknikal
                             </b-table-column>
-                            <b-table-column field="created_at" label="REGISTERED AT" cellClass="text-capitalize" sortable>
-                                {{ props.row.farm.created_at }}
+                            <b-table-column field="name" label="STATUS" cellClass="text-capitalize" sortable>
+                                OPEN
                             </b-table-column>
                         </template>
                         <template slot="detail" slot-scope="props">
@@ -65,17 +62,22 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <div class="row d-flex justify-content-between">
-                                            <div class="col-md-8">
-                                                <p>
-                                                    <strong>{{props.row.farm.name}}</strong><br>
-                                                    {{props.row.farm.address}} {{props.row.farm.city}}<br>
-                                                    <small>{{props.row.farm.phone_num}}</small>
-                                                </p>
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <p>Saya punya kendala dalam melakukan pembelian hewan ternak</p>
                                             </div>
-                                            <div class="col-md-4 d-flex justify-content-end">
-                                                <div class="buttons has-addons">
-                                                    <b-button type="is-dark" icon-left="pencil" @click="editForm(props.row)" outlined>Edit</b-button>
-                                                    <b-button type="is-dark" icon-left="delete" @click="deleteData(props.row.id, props.row.farm.id)" outlined>Delete</b-button>
+                                            <div class="col-md-4 d-flex align-items-center justify-content-end">
+                                                <div>
+                                                    <b-field label="Status" label-position="on-border">
+                                                        <b-select placeholder="Select status" v-model="statusnya" expanded class="d-block mb-2">
+                                                            <option value="1">Unverify</option>
+                                                            <option value="2">Verify</option>
+                                                            <option value="3">Deny</option>
+                                                        </b-select>
+                                                    </b-field>
+                                                    <div class="buttons has-addons align-self-center">
+                                                        <b-button type="is-dark" icon-left="delete" outlined>Delete Data</b-button>
+                                                        <b-button type="is-dark">Submit</b-button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,10 +91,10 @@
                                 <div class="th-wrap">NAME</div>
                             </th>
                             <th class="is-hidden-mobile">
-                                <div class="th-wrap">EMAIL</div>
+                                <div class="th-wrap">CATEGORY</div>
                             </th>
                             <th class="is-hidden-mobile">
-                                <div class="th-wrap">REGISTERED AT</div>
+                                <div class="th-wrap">STATUS</div>
                             </th>
                         </template>
                     </b-table>
@@ -121,27 +123,11 @@
             <div class="p-4">
                 <form @submit.prevent="addData()">
                     <b-field label="Name" :label-position="'on-border'">
-                        <b-input icon="account" v-model="form.formName" required></b-input>
-                    </b-field>
-                    <b-field label="Email" :label-position="'on-border'">
-                        <b-input type="email" icon="email" v-model="form.formEmail" required></b-input>
-                    </b-field>
-                    <b-field label="Phone" :label-position="'on-border'">
-                        <b-input type="number" icon="phone" v-model="form.formPhone" minlength="10" required></b-input>
-                    </b-field>
-                    <b-field label="Farm Name" :label-position="'on-border'">
-                        <b-input icon="barn" v-model="form.formFarmName" required></b-input>
-                    </b-field>
-                    <b-field label="City" :label-position="'on-border'">
-                        <b-input icon="home-city" v-model="form.formCity" required></b-input>
-                    </b-field>
-                    <b-field label="Address" :label-position="'on-border'">
-                        <b-input type="textarea" v-model="form.formAddress" required></b-input>
+                        <b-input icon="gitlab" v-model="form.formName" required></b-input>
                     </b-field>
                     <button class="btn btn-success btn-block">Submit</button>
                 </form>
             </div>
-
         </b-sidebar>
     </section>
 </template>
@@ -173,15 +159,9 @@
                 //State
                 notMatch: false,
                 currentId: 0,
-                farmerId:0,
                 //Form
                 form:{
                     formName:'',
-                    formEmail:'',
-                    formFarmName:'',
-                    formPhone:'',
-                    formAddress:'',
-                    formCity:'',
                 },
                 //DetailedTabel
                 defaultOpenedDetails: [1],
@@ -198,7 +178,8 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://akugap.tech/api/farmer?${params}`).then(response => {
+                // console.log(`http://manawa.akugap.tech/api/admin?${params}`);
+                axios.get(`http://manawa.akugap.tech/api/animal?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -208,7 +189,6 @@
                     this.total = currentTotal;
 
                     this.loading = false;
-                    // console.log(response)
                     if(this.searchData || this.currentPage == 1){
                         this.$buefy.toast.open({message: `${this.total} Data Displayed`, position: 'is-bottom'})
                     }
@@ -241,46 +221,36 @@
             },
             clearField(){
                 this.form.formName = '';
-                this.form.formEmail = '';
-                this.form.formFarmName = '';
-                this.form.formPhone = '';
-                this.form.formAddress = '';
-                this.form.formCity = '';
             },
             addForm(){
                 this.isEdit = false
                 this.open = true
             },
             editForm(data){
-                this.currentId = data.farm.id
-                this.farmerId = data.id
+                console.log(data)
+                this.currentId = data.id
                 this.form.formName = data.name
-                this.form.formEmail = data.email
-                this.form.formFarmName = data.farm.name
-                this.form.formPhone = data.farm.phone_num
-                this.form.formAddress = data.farm.address
-                this.form.formCity = data.farm.city
                 this.isEdit = true
                 this.open = true
             },
             addData(){
                 if(this.isEdit){
-                    console.log(this.farmerId)
-                    axios.post('http://akugap.tech/api/farmer/update', {
+                    axios.post('http://manawa.akugap.tech/api/animal/update', {
                         result: this.form,
-                        id: this.currentId,
-                        farmerId: this.farmerId
+                        id: this.currentId
                     }).then(response => {
+                        console.log(response)
                         this.clearField()
                         this.open = false;
                         this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
-                        this.loadAsyncData()
+                        this.loadAsyncData();
                     })
                     //INSERT
                 }else{
-                    axios.post('http://akugap.tech/api/farmer', {
+                    axios.post('http://manawa.akugap.tech/api/animal', {
                         result: this.form
                     }).then(response => {
+                        console.log(response)
                         this.clearField()
                         this.open = false;
                         this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
@@ -288,7 +258,7 @@
                     })
                 }
             },
-            deleteData(id, farmId){
+            deleteData(id){
                 this.$buefy.dialog.confirm({
                     title: 'Deleting data',
                     message: 'Are you sure you want to <b>delete</b> this data? This action cannot be undone.',
@@ -296,10 +266,10 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://akugap.tech/api/farmer/delete', {
-                            result: id,
-                            farm: farmId
+                        axios.post('http://manawa.akugap.tech/api/animal/delete', {
+                            result: id
                         }).then(response => {
+                            console.log(response)
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
                             this.loadAsyncData()
                         })

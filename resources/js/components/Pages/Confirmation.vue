@@ -200,6 +200,7 @@
                 this.$refs.table.toggleDetails(row)
             },
             addData(id){
+                console.log(id);
                 axios.post('http://manawa.akugap.tech/api/transaction/confirmation', {
                     status: this.statusnya,
                     id: id

@@ -54,7 +54,7 @@ class FarmerController extends Controller
         $far->email = $request->result['formEmail'];
         $far->save();
 
-        $mer = Farmer::where('id_farm',$request->id)->first();
+        $mer = Farmer::find($request->farmerId);
         $mer->id_farm = $far->id;
         $mer->email = $request->result['formEmail'];
         $mer->name = $request->result['formName'];
@@ -66,7 +66,8 @@ class FarmerController extends Controller
 
     public function delete(Request $request)
     {
-        Farmer::Destroy($request->result);
+        Farmer::destroy($request->result);
+        Farm::destroy($request->farm);
         return 'Success';
     }
 }

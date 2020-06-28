@@ -97,7 +97,7 @@
                                             </div>
                                             <div class="col-md-3 d-flex justify-content-end">
                                                 <div class="buttons has-addons">
-                                                    <b-button type="is-dark" icon-left="account-details" class="text-decoration-none" tag="router-link" :to="'/livestock/customer/'+props.row.id" outlined>Detail</b-button>
+                                                    <b-button type="is-dark" icon-left="account-details" class="text-decoration-none" tag="router-link" :to="'/backend/livestock/customer/'+props.row.id" outlined>Detail</b-button>
                                                 </div>
                                             </div>
                                         </div>

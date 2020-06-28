@@ -67,7 +67,7 @@
                                             </div>
                                             <div class="col-md-4 d-flex justify-content-end">
                                                 <div class="buttons has-addons">
-                                                    <b-button type="is-dark" icon-left="account-details" tag="router-link" :to="'/account/customer/'+props.row.id" class="text-decoration-none" outlined>Detail</b-button>
+                                                    <b-button type="is-dark" icon-left="account-details" tag="router-link" :to="'/backend/account/customer/'+props.row.id" class="text-decoration-none" outlined>Detail</b-button>
                                                 </div>
                                             </div>
                                         </div>

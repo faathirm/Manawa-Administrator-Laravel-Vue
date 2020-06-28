@@ -54,7 +54,7 @@
                                     <b-tab-item label="Livestock">
                                         <div class="row mr-1">
                                             <div class="col-md-3 p-1" v-for="live in data.livestockList" :key="live.id">
-                                                <router-link class="card p-0 shadow-none" tag="div" :to="'/livestock/customer/'+live.id" style="cursor: pointer;">
+                                                <router-link class="card p-0 shadow-none" tag="div" :to="'/backend/livestock/customer/'+live.id" style="cursor: pointer;">
                                                     <div class="card-header p-0 d-flex justify-content-center has-background-dark" style="height: 10em;">
                                                         <b-icon icon="gitlab" size="is-large" class="align-self-center" type="is-white"></b-icon>
                                                     </div>
@@ -135,7 +135,7 @@
         },
         methods: {
           loadAsync(){
-              axios.post("http://manawa.akugap.tech/api/customer/detail",{
+              axios.post("manawa.akugap.tech/api/customer/detail",{
                   id: this.$route.params.id
               }).then(response => {
                   this.data.fullname = response.data.name;

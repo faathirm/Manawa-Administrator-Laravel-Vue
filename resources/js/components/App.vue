@@ -5,15 +5,21 @@
                 <p class="title is-3 ml-4 has-text-white font-weight-bold">Manawa</p>
             </div>
             <div class="col-md-4 p-0 ">
-                <div class="row d-flex justify-content-end">
+                <b-dropdown aria-role="list" style="display: block;" position="is-bottom-left">
+                <div class="row d-flex justify-content-end" slot="trigger" slot-scope="{ active }">
                     <div class="col-md-2 d-flex justify-content-end">
-                        <avatar :username="'John Doe'" :size="48" backgroundColor="#e74c3c" color="white" :inline="true"></avatar>
+                        <avatar :username="name" :size="48" backgroundColor="#e74c3c" color="white" :inline="true"></avatar>
                     </div>
                     <div class="col-md-6">
-                        <p class="title is-5 has-text-white">John Doe</p>
+                        <p class="title is-5 has-text-white">{{ name }}</p>
                         <p class="subtitle is-5 has-text-white">Administrator</p>
                     </div>
                 </div>
+                    <b-dropdown-item aria-role="listitem" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign out</b-dropdown-item>
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" :value="csrf">
+                    </form>
+                </b-dropdown>
             </div>
         </div>
         <div class="row">
@@ -44,6 +50,15 @@
         components: {
             MainMenu,
             Avatar
+        },
+        data(){
+            return {
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                name: '',
+            }
+        },
+        mounted() {
+            this.name = this.$userId;
         }
     }
 </script>

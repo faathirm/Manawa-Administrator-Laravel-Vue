@@ -44,79 +44,81 @@ import Confirmation from './components/Pages/Confirmation';
 import Withdrawal from './components/Pages/Withdrawal';
 import Notificaton from './components/Pages/Notification';
 import Voucher from './components/Pages/Voucher';
+import Ticketing from './components/Pages/Ticketing';
 
 const routes = [
     {
-        name: 'read',
-        path: '/',
-        component: Read
-    },
-    {
         name: 'admin_view',
-        path: '/account/admin',
+        path: '/backend/account/admin',
         component: Read
     },
     {
         name: 'admin_new',
-        path: '/account/admin/new',
+        path: '/backend/account/admin/new',
         component: AdminNew
     },
     {
         name: 'farmer',
-        path: '/account/farmer',
+        path: '/backend/account/farmer',
         component: Farmer
     },
     {
         name: 'customer',
-        path: '/account/customer',
+        path: '/backend/account/customer',
         component: Customer
     },
     {
         name: 'customer_detail',
-        path: '/account/customer/:id',
+        path: '/backend/account/customer/:id',
         component: CustomerDetail
     },
     {
         name: 'product',
-        path: '/livestock/product',
+        path: '/backend/livestock/product',
         component: Product
     },
     {
         name: 'customer_livestock',
-        path: '/livestock/customer',
+        path: '/backend/livestock/customer',
         component: CustomerLivestock
     },
     {
         name: 'customer_livestock_detail',
-        path: '/livestock/customer/:id',
+        path: '/backend/livestock/customer/:id',
         component: CustomerLivestockDetail
     },
     {
         name: 'transaction',
-        path: '/transaction/view',
+        path: '/backend/transaction/view',
         component: Transaction
     },
     {
         name: 'confirmation',
-        path: '/transaction/confirmation',
+        path: '/backend/transaction/confirmation',
         component: Confirmation
     },
     {
         name: 'withdrawal',
-        path: '/transaction/withdrawal',
+        path: '/backend/transaction/withdrawal',
         component: Withdrawal
     },
     {
         name: 'notification',
-        path: '/crm/notification',
+        path: '/backend/crm/notification',
         component: Notificaton
     },
     {
         name: 'voucher',
-        path: '/crm/voucher',
+        path: '/backend/crm/voucher',
         component: Voucher
+    },
+    {
+        name: 'ticketing',
+        path: '/backend/crm/ticketing',
+        component: Ticketing
     }
 ]
 
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
 const router = new VueRouter({ mode: 'history', routes: routes ,linkActiveClass: "is-active", linkExactActiveClass: "exact-active"});
 new Vue(Vue.util.extend({router }, App)).$mount("#app");

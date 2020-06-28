@@ -173,16 +173,16 @@
                         </b-select>
                     </b-field>
                     <b-field label="Price Base" :label-position="'on-border'">
-                        <b-input v-cleave="{ numeral: true, numeralThousandsGroupStyle: 'thousand'}" v-model="form.price_base" required></b-input>
+                        <b-input v-model="form.price_base" required></b-input>
                     </b-field>
                     <b-field label="Price Monthly Increment" :label-position="'on-border'">
-                        <b-input v-cleave="{ numeral: true, numeralThousandsGroupStyle: 'thousand'}" v-model="form.price_monthly_incr" required></b-input>
+                        <b-input v-model="form.price_monthly_incr" required></b-input>
                     </b-field>
                     <b-field label="Price Insurance" :label-position="'on-border'">
-                        <b-input v-cleave="{ numeral: true, numeralThousandsGroupStyle: 'thousand'}" v-model="form.price_insurance" required></b-input>
+                        <b-input v-model="form.price_insurance" required></b-input>
                     </b-field>
                     <b-field label="Price Estimated Sell" :label-position="'on-border'">
-                        <b-input v-cleave="{ numeral: true, numeralThousandsGroupStyle: 'thousand'}" v-model="form.price_est_sell" required></b-input>
+                        <b-input v-model="form.price_est_sell" required></b-input>
                     </b-field>
                     <b-field label="Stock" :label-position="'on-border'">
                         <b-numberinput v-model="form.stock"></b-numberinput>

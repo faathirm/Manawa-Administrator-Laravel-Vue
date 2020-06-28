@@ -11,6 +11,7 @@ class AdminController extends Controller
 {
     public function all(Request $request)
     {
+        $admin = Admin::on();
         if($request->search == "null" || $request->search == null){
             return Admin::orderBy($request->sort_by, $request->sort_order)->paginate(10);
         }else{
