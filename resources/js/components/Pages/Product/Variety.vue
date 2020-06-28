@@ -272,6 +272,8 @@
                         }).then(response => {
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
                             this.loadAsyncData()
+                        }).catch(error =>{
+                            this.$buefy.toast.open({message: `Delete Failed`, position: 'is-bottom', type: 'is-danger'})
                         })
                     }
                 })

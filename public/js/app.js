@@ -3067,6 +3067,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3096,6 +3099,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("http://manawa.akugap.tech/api/customerlivestock/detail", {
         id: this.$route.params.id
       }).then(function (response) {
+        console.log(response);
         _this.data = response.data[0];
         _this.isLoading = false;
       });
@@ -3187,6 +3191,36 @@ __webpack_require__.r(__webpack_exports__);
             });
 
             _this3.loadAsync();
+          });
+        }
+      });
+    },
+    sellLivestock: function sellLivestock(id, idusernya) {
+      var _this4 = this;
+
+      this.$buefy.dialog.prompt({
+        message: "Price Sold",
+        inputAttrs: {
+          type: 'number',
+          placeholder: 'amount',
+          value: '0'
+        },
+        confirmText: 'Submit',
+        trapFocus: true,
+        onConfirm: function onConfirm(value) {
+          axios.post('http://manawa.akugap.tech/api/customerlivestock/sell', {
+            id: id,
+            amount: value,
+            iduser: idusernya
+          }).then(function (response) {
+            console.log(response);
+
+            _this4.$buefy.toast.open({
+              message: "Delete Success",
+              position: 'is-bottom'
+            });
+
+            _this4.loadAsync();
           });
         }
       });
@@ -3405,7 +3439,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://akugap.tech/api/farmer?".concat(params)).then(function (response) {
+      axios.get("http://manawa.akugap.tech/api/farmer?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -3477,7 +3511,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.isEdit) {
         console.log(this.farmerId);
-        axios.post('http://akugap.tech/api/farmer/update', {
+        axios.post('http://manawa.akugap.tech/api/farmer/update', {
           result: this.form,
           id: this.currentId,
           farmerId: this.farmerId
@@ -3494,7 +3528,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://akugap.tech/api/farmer', {
+        axios.post('http://manawa.akugap.tech/api/farmer', {
           result: this.form
         }).then(function (response) {
           _this2.clearField();
@@ -3520,7 +3554,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://akugap.tech/api/farmer/delete', {
+          axios.post('http://manawa.akugap.tech/api/farmer/delete', {
             result: id,
             farm: farmId
           }).then(function (response) {
@@ -3974,6 +4008,12 @@ __webpack_require__.r(__webpack_exports__);
             });
 
             _this3.loadAsyncData();
+          })["catch"](function (error) {
+            _this3.$buefy.toast.open({
+              message: "Delete Failed",
+              position: 'is-bottom',
+              type: 'is-danger'
+            });
           });
         }
       });
@@ -4204,7 +4244,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4229,6 +4268,7 @@ __webpack_require__.r(__webpack_exports__);
       //Sidebar
       open: false,
       isEdit: false,
+      file: {},
       //State
       notMatch: false,
       currentId: 0,
@@ -4266,7 +4306,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("http://manawa.akugap.tech/api/farmvariety?".concat(params)).then(function (response) {
+      axios.get("http://localhost:8000/api/farmvariety?".concat(params)).then(function (response) {
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -4347,9 +4387,22 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.isEdit) {
-        axios.post('http://manawa.akugap.tech/api/variety/update', {
-          result: this.form,
-          id: this.currentId
+        var formData = new FormData();
+        formData.append('farm', this.form.farm);
+        formData.append('variety', this.form.variety);
+        formData.append('sales_type', this.form.sales_type);
+        formData.append('price_base', this.form.price_base);
+        formData.append('price_monthly_incr', this.form.price_monthly_incr);
+        formData.append('price_insurance', this.form.price_insurance);
+        formData.append('price_est_sell', this.form.price_est_sell);
+        formData.append('variety_desc', this.form.variety_desc);
+        formData.append('stock', this.form.stock);
+        formData.append('id', this.currentId);
+        formData.append('file', this.file);
+        axios.post('http://localhost:8000/api/farmvariety/update', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }).then(function (response) {
           _this2.clearField();
 
@@ -4363,8 +4416,32 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadAsyncData();
         }); //INSERT
       } else {
-        axios.post('http://manawa.akugap.tech/api/farmvariety', {
-          result: this.form
+        var _formData = new FormData();
+
+        _formData.append('farm', this.form.farm);
+
+        _formData.append('variety', this.form.variety);
+
+        _formData.append('sales_type', this.form.sales_type);
+
+        _formData.append('price_base', this.form.price_base);
+
+        _formData.append('price_monthly_incr', this.form.price_monthly_incr);
+
+        _formData.append('price_insurance', this.form.price_insurance);
+
+        _formData.append('price_est_sell', this.form.price_est_sell);
+
+        _formData.append('variety_desc', this.form.variety_desc);
+
+        _formData.append('stock', this.form.stock);
+
+        _formData.append('file', this.file);
+
+        axios.post('http://localhost:8000/api/farmvariety', _formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }).then(function (response) {
           console.log(response);
 
@@ -4387,19 +4464,27 @@ __webpack_require__.r(__webpack_exports__);
       this.$buefy.dialog.confirm({
         title: 'Deleting data',
         message: 'Are you sure you want to <b>delete</b> this data? This action cannot be undone.',
-        confirmText: 'Delete Account',
+        confirmText: 'Delete Data',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
-          axios.post('http://manawa.akugap.tech/api/variety/delete', {
+          axios.post('http://localhost:8000/api/farmvariety/delete', {
             result: id
           }).then(function (response) {
+            console.log(response['status']);
+
             _this3.$buefy.toast.open({
               message: "Delete Success",
               position: 'is-bottom'
             });
 
             _this3.loadAsyncData();
+          })["catch"](function (error) {
+            _this3.$buefy.toast.open({
+              message: "Delete Failed",
+              position: 'is-bottom',
+              type: 'is-danger'
+            });
           });
         }
       });
@@ -4407,7 +4492,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllAnimal: function getAllAnimal() {
       var _this4 = this;
 
-      axios.get('http://manawa.akugap.tech/api/variety/animal').then(function (response) {
+      axios.get('http://localhost:8000/api/variety/animal').then(function (response) {
         _this4.allAnimal = response.data;
       });
     },
@@ -4424,16 +4509,19 @@ __webpack_require__.r(__webpack_exports__);
     getFarm: function getFarm() {
       var _this5 = this;
 
-      axios.get('http://manawa.akugap.tech/api/farmvariety/farm').then(function (response) {
+      axios.get('http://localhost:8000/api/farmvariety/farm').then(function (response) {
         _this5.allFarm = response.data;
       });
     },
     getVariety: function getVariety() {
       var _this6 = this;
 
-      axios.get('http://manawa.akugap.tech/api/farmvariety/variety').then(function (response) {
+      axios.get('http://localhost:8000/api/farmvariety/variety').then(function (response) {
         _this6.allVariety = response.data;
       });
+    },
+    handleFileUpload: function handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
   },
   created: function created() {
@@ -4746,6 +4834,12 @@ __webpack_require__.r(__webpack_exports__);
             });
 
             _this3.loadAsyncData();
+          })["catch"](function (error) {
+            _this3.$buefy.toast.open({
+              message: "Delete Failed",
+              position: 'is-bottom',
+              type: 'is-danger'
+            });
           });
         }
       });
@@ -4875,44 +4969,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-=======
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4933,16 +4989,6 @@ __webpack_require__.r(__webpack_exports__);
       sortIcon: 'chevron-up',
       sortIconSize: 'is-small',
       admins: [],
-      //Sidebar
-      open: false,
-      isEdit: false,
-      //State
-      notMatch: false,
-      currentId: 0,
-      //Form
-      form: {
-        formName: ''
-      },
       //DetailedTabel
       defaultOpenedDetails: [1],
       showDetailIcon: true,
@@ -4959,14 +5005,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
-<<<<<<< HEAD
-      this.loading = true; // console.log(`http://manawa.akugap.tech/api/admin?${params}`);
-
-      axios.get("http://manawa.akugap.tech/api/animal?".concat(params)).then(function (response) {
-=======
       this.loading = true;
       axios.get("http://manawa.akugap.tech/api/ticketing?".concat(params)).then(function (response) {
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
         _this.admins = response.data["data"];
         var currentTotal = response.data["total"];
 
@@ -5009,61 +5049,6 @@ __webpack_require__.r(__webpack_exports__);
     toggle: function toggle(row) {
       this.$refs.table.toggleDetails(row);
     },
-<<<<<<< HEAD
-    clearField: function clearField() {
-      this.form.formName = '';
-    },
-    addForm: function addForm() {
-      this.isEdit = false;
-      this.open = true;
-    },
-    editForm: function editForm(data) {
-      console.log(data);
-      this.currentId = data.id;
-      this.form.formName = data.name;
-      this.isEdit = true;
-      this.open = true;
-    },
-    addData: function addData() {
-      var _this2 = this;
-
-      if (this.isEdit) {
-        axios.post('http://manawa.akugap.tech/api/animal/update', {
-          result: this.form,
-          id: this.currentId
-        }).then(function (response) {
-          console.log(response);
-
-          _this2.clearField();
-
-          _this2.open = false;
-
-          _this2.$buefy.toast.open({
-            message: "Submit Success",
-            position: 'is-bottom'
-          });
-
-          _this2.loadAsyncData();
-        }); //INSERT
-      } else {
-        axios.post('http://manawa.akugap.tech/api/animal', {
-          result: this.form
-        }).then(function (response) {
-          console.log(response);
-
-          _this2.clearField();
-
-          _this2.open = false;
-
-          _this2.$buefy.toast.open({
-            message: "Submit Success",
-            position: 'is-bottom'
-          });
-
-          _this2.loadAsyncData();
-        });
-      }
-=======
     addData: function addData(id) {
       var _this2 = this;
 
@@ -5080,7 +5065,6 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.loadAsyncData();
       });
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
     },
     deleteData: function deleteData(id) {
       var _this3 = this;
@@ -5088,19 +5072,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$buefy.dialog.confirm({
         title: 'Deleting data',
         message: 'Are you sure you want to <b>delete</b> this data? This action cannot be undone.',
-<<<<<<< HEAD
-        confirmText: 'Delete Account',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: function onConfirm() {
-          axios.post('http://manawa.akugap.tech/api/animal/delete', {
-=======
         confirmText: 'Delete Data',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function onConfirm() {
           axios.post('http://manawa.akugap.tech/api/ticketing/delete', {
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
             result: id
           }).then(function (response) {
             console.log(response);
@@ -5134,265 +5110,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-avatar */ "./node_modules/vue-avatar/dist/vue-avatar.min.js");
 /* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_avatar__WEBPACK_IMPORTED_MODULE_0__);
-<<<<<<< HEAD
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    Avatar: vue_avatar__WEBPACK_IMPORTED_MODULE_0__["Avatar"]
-  },
-  data: function data() {
-    return {
-      //TABLE
-      total: 0,
-      currentPage: 1,
-      sortField: 'id',
-      sortOrder: 'desc',
-      defaultSortOrder: 'desc',
-      searchData: null,
-      searchInput: null,
-      loading: false,
-      page: 1,
-      sortIcon: 'chevron-up',
-      sortIconSize: 'is-small',
-      admins: [],
-      //DetailedTabel
-      defaultOpenedDetails: [1],
-      showDetailIcon: true
-    };
-  },
-  methods: {
-    loadAsyncData: function loadAsyncData() {
-      var _this = this;
-
-      var params = ["search=".concat(this.searchData), "sort_by=".concat(this.sortField), "sort_order=".concat(this.sortOrder), "page=".concat(this.page)].join('&');
-      this.loading = true;
-      axios.get("http://manawa.akugap.tech/api/transaction?".concat(params)).then(function (response) {
-        _this.admins = response.data["data"];
-        var currentTotal = response.data["total"];
-
-        if (response.data["total"] / 10 > 1000) {
-          currentTotal = _this.perPage * 1000;
-        }
-
-        _this.currentPage = response.data["current_page"];
-        _this.total = currentTotal;
-        _this.loading = false;
-
-        if (_this.searchData || _this.currentPage == 1) {
-          _this.$buefy.toast.open({
-            message: "".concat(_this.total, " Data Displayed"),
-            position: 'is-bottom'
-          });
-        }
-      })["catch"](function (error) {
-        _this.admins = [];
-        _this.total = 0;
-        _this.loading = false;
-        throw error;
-      });
-    },
-    onPageChange: function onPageChange(page) {
-      this.page = page;
-      this.loadAsyncData();
-    },
-    onSort: function onSort(field, order) {
-      this.sortField = field;
-      this.sortOrder = order;
-      this.currentPage = 1;
-      this.onPageChange(1);
-    },
-    onSearch: function onSearch() {
-      this.searchData = this.searchInput;
-      this.currentPage = 1;
-      this.onPageChange(1); // this.loadAsyncData();
-    },
-    toggle: function toggle(row) {
-      this.$refs.table.toggleDetails(row);
-    }
-  },
-  created: function created() {
-    this.loadAsyncData();
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pages/Voucher.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pages/Voucher.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-avatar */ "./node_modules/vue-avatar/dist/vue-avatar.min.js");
-/* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_avatar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_cleave_directive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-cleave-directive */ "./node_modules/vue-cleave-directive/dist/vue-cleave-directive.esm.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-=======
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
 //
 //
 //
@@ -60306,11 +60023,7 @@ var render = function() {
             "router-link",
             {
               staticClass: "text-decoration-none",
-<<<<<<< HEAD
               attrs: { tag: "a", to: "/backend/crm/ticketing" }
-=======
-              attrs: { tag: "a", to: "/crm/ticketing" }
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
             },
             [
               _c("b-icon", { attrs: { icon: "alert-octagon" } }),
@@ -62402,18 +62115,20 @@ var render = function() {
                           "col-md-6 d-flex justify-content-end align-items-center"
                       },
                       [
-                        _c(
-                          "b-button",
-                          {
-                            attrs: { type: "is-dark", "icon-left": "plus" },
-                            on: {
-                              click: function($event) {
-                                return _vm.addForm()
-                              }
-                            }
-                          },
-                          [_vm._v(" New Report ")]
-                        )
+                        _vm.data.sold_at == null
+                          ? _c(
+                              "b-button",
+                              {
+                                attrs: { type: "is-dark", "icon-left": "plus" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.addForm()
+                                  }
+                                }
+                              },
+                              [_vm._v(" New Report ")]
+                            )
+                          : _vm._e()
                       ],
                       1
                     )
@@ -62459,7 +62174,7 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Owner")]),
@@ -62483,7 +62198,7 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Price Purchase")]),
@@ -62502,7 +62217,7 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Insurance")]),
@@ -62523,7 +62238,7 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Born at")]),
@@ -62538,7 +62253,7 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Added at")]),
@@ -62553,12 +62268,12 @@ var render = function() {
                             "li",
                             {
                               staticClass:
-                                "list-group-item d-flex justify-content-between"
+                                "list-group-item d-flex justify-content-between small"
                             },
                             [
                               _c("div", [_vm._v("Sold at")]),
                               _vm._v(" "),
-                              this.data.sold_at != null
+                              _vm.data.sold_at != null
                                 ? _c(
                                     "div",
                                     { staticClass: "font-weight-bold" },
@@ -62570,7 +62285,36 @@ var render = function() {
                                   )
                                 : _vm._e()
                             ]
-                          )
+                          ),
+                          _vm._v(" "),
+                          _vm.data.sold_at == null
+                            ? _c(
+                                "li",
+                                {
+                                  staticClass:
+                                    "list-group-item d-flex justify-content-center"
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-success btn-block font-weight-bold",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.sellLivestock(
+                                            _vm.data.id,
+                                            _vm.data.id_user
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Sell Livestock")]
+                                  )
+                                ]
+                              )
+                            : _vm._e()
                         ]
                       )
                     ]),
@@ -64533,15 +64277,13 @@ var render = function() {
                                                 )
                                               ]
                                             ),
-                                            _c("br")
+                                            _c("br"),
+                                            _vm._v(
+                                              "\n                                                        " +
+                                                _vm._s(props.row.variety_desc) +
+                                                "\n                                                    "
+                                            )
                                           ]),
-                                          _c("hr", { staticClass: "m-1" }),
-                                          _vm._v(
-                                            "\n                                                        " +
-                                              _vm._s(props.row.variety_desc) +
-                                              "\n                                                    "
-                                          ),
-                                          _c("p"),
                                           _vm._v(" "),
                                           _c(
                                             "b-field",
@@ -65146,28 +64888,30 @@ var render = function() {
                     _c(
                       "b-upload",
                       {
-                        attrs: { expanded: "" },
+                        ref: "file",
+                        attrs: { expanded: "", id: "file" },
+                        on: {
+                          change: function($event) {
+                            return _vm.handleFileUpload()
+                          }
+                        },
                         model: {
-                          value: _vm.form.photo_url,
+                          value: _vm.file,
                           callback: function($$v) {
-                            _vm.$set(_vm.form, "photo_url", $$v)
+                            _vm.file = $$v
                           },
-                          expression: "form.photo_url"
+                          expression: "file"
                         }
                       },
                       [
                         _c(
                           "a",
-                          { staticClass: "button is-dark is-fullwidth" },
+                          { staticClass: "button is-primary is-fullwidth" },
                           [
-                            _c("b-icon", { attrs: { icon: "camera" } }),
+                            _c("b-icon", { attrs: { icon: "upload" } }),
                             _vm._v(" "),
                             _c("span", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.form.photo_url.name || "Click to upload"
-                                )
-                              )
+                              _vm._v(_vm._s(_vm.file.name || "Click to upload"))
                             ])
                           ],
                           1
@@ -65646,465 +65390,6 @@ var render = function() {
                       }),
                       0
                     )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("button", { staticClass: "btn btn-success btn-block" }, [
-                  _vm._v("Submit")
-                ])
-              ],
-              1
-            )
-          ])
-        ]
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Pages/Ticketing.vue?vue&type=template&id=e71f20e0&":
-/*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Pages/Ticketing.vue?vue&type=template&id=e71f20e0& ***!
-  \******************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    [
-      _c("div", [
-        _c("div", { staticClass: "row d-flex justify-content-end" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-4" },
-            [
-              _c(
-                "b-field",
-                { attrs: { position: "is-right" } },
-                [
-                  _c("b-input", {
-                    attrs: {
-                      placeholder: "Search...",
-                      type: "search",
-                      icon: "magnify"
-                    },
-                    model: {
-                      value: _vm.searchInput,
-                      callback: function($$v) {
-                        _vm.searchInput = $$v
-                      },
-                      expression: "searchInput"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    { staticClass: "control" },
-                    [
-                      _c(
-                        "b-button",
-                        {
-                          staticClass: "button is-primary",
-                          on: {
-                            click: function($event) {
-                              return _vm.onSearch()
-                            }
-                          }
-                        },
-                        [_vm._v("Search")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-12" },
-            [
-              _c(
-                "b-table",
-                {
-                  ref: "table",
-                  attrs: {
-                    narrowed: true,
-                    "sort-icon": _vm.sortIcon,
-                    "sort-icon-size": _vm.sortIconSize,
-                    loading: _vm.loading,
-                    data: _vm.admins,
-                    detailed: "",
-                    "detail-key": "id",
-                    "show-detail-icon": _vm.showDetailIcon,
-                    paginated: "",
-                    "backend-pagination": "",
-                    total: _vm.total,
-                    "per-page": 10,
-                    "current-page": _vm.currentPage,
-                    "backend-sorting": "",
-                    "default-sort-direction": _vm.defaultSortOrder,
-                    "default-sort": [_vm.sortField, _vm.sortOrder]
-                  },
-                  on: {
-                    "details-open": function(row, index) {},
-                    "page-change": _vm.onPageChange,
-                    sort: _vm.onSort
-                  },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "default",
-                      fn: function(props) {
-                        return [
-                          _c(
-                            "b-table-column",
-                            {
-                              attrs: {
-                                field: "name",
-                                label: "NAME",
-                                cellClass: "text-capitalize",
-                                sortable: ""
-                              }
-                            },
-                            [
-                              _vm.showDetailIcon
-                                ? [
-                                    _c(
-                                      "a",
-                                      {
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.toggle(props.row)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("avatar", {
-                                          attrs: {
-                                            username: "isye s adhiwinaya",
-                                            size: 24,
-                                            backgroundColor: "#e74c3c",
-                                            color: "white",
-                                            inline: true
-                                          }
-                                        }),
-                                        _vm._v(
-                                          " Isye S. Adhiwinaya\n                                "
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                : [
-                                    _c("avatar", {
-                                      attrs: {
-                                        username: "isye s adhiwinaya",
-                                        size: 24,
-                                        backgroundColor: "#e74c3c",
-                                        color: "white",
-                                        inline: true
-                                      }
-                                    }),
-                                    _vm._v(
-                                      " Isye S. Adhiwinaya\n                            "
-                                    )
-                                  ]
-                            ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-table-column",
-                            {
-                              attrs: {
-                                field: "name",
-                                label: "CATEGORY",
-                                cellClass: "text-capitalize",
-                                sortable: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Teknikal\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-table-column",
-                            {
-                              attrs: {
-                                field: "name",
-                                label: "STATUS",
-                                cellClass: "text-capitalize",
-                                sortable: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            OPEN\n                        "
-                              )
-                            ]
-                          )
-                        ]
-                      }
-                    },
-                    {
-                      key: "detail",
-                      fn: function(props) {
-                        return [
-                          _c("article", { staticClass: "media" }, [
-                            _c("div", { staticClass: "media-content" }, [
-                              _c("div", { staticClass: "content" }, [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "row d-flex justify-content-between"
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "col-md-6 d-flex align-items-center"
-                                      },
-                                      [
-                                        _c("p", [
-                                          _vm._v(
-                                            "Saya punya kendala dalam melakukan pembelian hewan ternak"
-                                          )
-                                        ])
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "col-md-4 d-flex align-items-center justify-content-end"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          [
-                                            _c(
-                                              "b-field",
-                                              {
-                                                attrs: {
-                                                  label: "Status",
-                                                  "label-position": "on-border"
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "b-select",
-                                                  {
-                                                    staticClass: "d-block mb-2",
-                                                    attrs: {
-                                                      placeholder:
-                                                        "Select status",
-                                                      expanded: ""
-                                                    },
-                                                    model: {
-                                                      value: _vm.statusnya,
-                                                      callback: function($$v) {
-                                                        _vm.statusnya = $$v
-                                                      },
-                                                      expression: "statusnya"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "option",
-                                                      { attrs: { value: "1" } },
-                                                      [_vm._v("Unverify")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "option",
-                                                      { attrs: { value: "2" } },
-                                                      [_vm._v("Verify")]
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "option",
-                                                      { attrs: { value: "3" } },
-                                                      [_vm._v("Deny")]
-                                                    )
-                                                  ]
-                                                )
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "buttons has-addons align-self-center"
-                                              },
-                                              [
-                                                _c(
-                                                  "b-button",
-                                                  {
-                                                    attrs: {
-                                                      type: "is-dark",
-                                                      "icon-left": "delete",
-                                                      outlined: ""
-                                                    }
-                                                  },
-                                                  [_vm._v("Delete Data")]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "b-button",
-                                                  {
-                                                    attrs: { type: "is-dark" }
-                                                  },
-                                                  [_vm._v("Submit")]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ])
-                            ])
-                          ])
-                        ]
-                      }
-                    }
-                  ])
-                },
-                [
-                  _vm._v(" "),
-                  _vm._v(" "),
-                  _c("template", { slot: "footer" }, [
-                    _c("th", { staticClass: "is-hidden-mobile" }),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "is-hidden-mobile" }, [
-                      _c("div", { staticClass: "th-wrap" }, [_vm._v("NAME")])
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "is-hidden-mobile" }, [
-                      _c("div", { staticClass: "th-wrap" }, [
-                        _vm._v("CATEGORY")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("th", { staticClass: "is-hidden-mobile" }, [
-                      _c("div", { staticClass: "th-wrap" }, [_vm._v("STATUS")])
-                    ])
-                  ])
-                ],
-                2
-              )
-            ],
-            1
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "b-sidebar",
-        {
-          attrs: {
-            type: "is-light",
-            fullheight: true,
-            right: true,
-            open: _vm.open
-          },
-          on: {
-            "update:open": function($event) {
-              _vm.open = $event
-            }
-          }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "has-background-dark is-bold" },
-            [
-              _vm.isEdit
-                ? [
-                    _c("div", { staticClass: "p-4" }, [
-                      _c("p", { staticClass: "title  text-white" }, [
-                        _vm._v("Edit Entry")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "subtitle is-6  text-white" }, [
-                        _vm._v("Edit entry data")
-                      ])
-                    ])
-                  ]
-                : [
-                    _c("div", { staticClass: "p-4" }, [
-                      _c("p", { staticClass: "title  text-white" }, [
-                        _vm._v("New Entry")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "subtitle is-6  text-white" }, [
-                        _vm._v("Enter new data")
-                      ])
-                    ])
-                  ]
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "p-4" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.addData()
-                  }
-                }
-              },
-              [
-                _c(
-                  "b-field",
-                  { attrs: { label: "Name", "label-position": "on-border" } },
-                  [
-                    _c("b-input", {
-                      attrs: { icon: "gitlab", required: "" },
-                      model: {
-                        value: _vm.form.formName,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form, "formName", $$v)
-                        },
-                        expression: "form.formName"
-                      }
-                    })
                   ],
                   1
                 ),
@@ -88794,11 +88079,7 @@ var routes = [{
   component: _components_Pages_Voucher__WEBPACK_IMPORTED_MODULE_19__["default"]
 }, {
   name: 'ticketing',
-<<<<<<< HEAD
   path: '/backend/crm/ticketing',
-=======
-  path: '/crm/ticketing',
->>>>>>> 261a9d57e45486d07c4bb9d75bd6696627146272
   component: _components_Pages_Ticketing__WEBPACK_IMPORTED_MODULE_20__["default"]
 }];
 Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
@@ -90192,8 +89473,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\faath\Documents\Manawa-Admin-SYE\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\faath\Documents\Manawa-Admin-SYE\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Projects\ManawaAdminLaravelVue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Projects\ManawaAdminLaravelVue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

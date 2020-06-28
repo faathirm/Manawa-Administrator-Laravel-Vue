@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 d-flex justify-content-end align-items-center">
-                                <b-button type="is-dark" icon-left="plus" @click="addForm()"> New Report </b-button>
+                                <b-button type="is-dark" v-if="data.sold_at == null" icon-left="plus" @click="addForm()"> New Report </b-button>
                             </div>
                         </div>
                     </div>
@@ -39,29 +39,32 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <ul class="list-group ml-3 small list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Owner</div>
                                         <div class="font-weight-bold text-capitalize"> {{this.data.customer.name}} </div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Price Purchase</div>
                                         <div class="font-weight-bold">{{ this.data.price_purchase | currency }}</div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Insurance</div>
                                         <div class="font-weight-bold">{{ this.data.price_insurance | currency }}</div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Born at</div>
                                         <div class="font-weight-bold">{{ this.data.born_at.substr(0,10)}}</div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Added at</div>
                                         <div class="font-weight-bold">{{ this.data.added_at.substr(0,10) }}</div>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between small">
                                         <div>Sold at</div>
-                                        <div class="font-weight-bold" v-if="this.data.sold_at != null">{{ this.data.sold_at.substr(0,10) }}</div>
+                                        <div class="font-weight-bold" v-if="data.sold_at != null">{{ this.data.sold_at.substr(0,10) }}</div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-center" v-if="data.sold_at == null">
+                                        <button @click="sellLivestock(data.id,data.id_user)" type="button" class="btn btn-outline-success btn-block font-weight-bold">Sell Livestock</button>
                                     </li>
                                 </ul>
                             </div>
@@ -185,6 +188,7 @@
                 axios.post("http://manawa.akugap.tech/api/customerlivestock/detail",{
                     id: this.$route.params.id
                 }).then(response => {
+                    console.log(response);
                     this.data = response.data[0];
                     this.isLoading = false;
                 });
@@ -250,6 +254,29 @@
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
                             this.loadAsync()
                         })
+                    }
+                })
+            },
+            sellLivestock(id,idusernya){
+                this.$buefy.dialog.prompt({
+                    message: `Price Sold`,
+                    inputAttrs: {
+                        type: 'number',
+                        placeholder: 'amount',
+                        value: '0'
+                    },
+                    confirmText: 'Submit',
+                    trapFocus: true,
+                    onConfirm: (value) => {
+                        axios.post('http://manawa.akugap.tech/api/customerlivestock/sell', {
+                            id: id,
+                            amount: value,
+                            iduser: idusernya
+                        }).then(response => {
+                            console.log(response)
+                            this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
+                            this.loadAsync()
+                        });
                     }
                 })
             }

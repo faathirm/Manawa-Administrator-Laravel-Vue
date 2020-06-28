@@ -32,22 +32,42 @@ class FarmVarietyController extends Controller
 
     public function new(Request $request)
     {
-//        $ani = new FarmVariety();
-//        $ani->id_animal = ucwords($request->result['formName']);
-//        $ani->name = ucwords($request->result['formVariety']);
-//        $ani->created_at = date("Y-m-d H:i:s");
-//        $ani->save();
-
-        return $request;
+        $ani = new FarmVariety();
+        $ani->id_farm = $request->farm;
+        $ani->id_variety = $request->variety;
+        $ani->sales_type = $request->sales_type;
+        $ani->price_base = $request->price_base;
+        $ani->price_monthly_incr = $request->price_monthly_incr;
+        $ani->price_insurance = $request->price_insurance;
+        $ani->price_est_sell = $request->price_est_sell;
+        $ani->variety_desc = $request->variety_desc;
+        $file = $request->file('file');
+        $file->move("image/product/", date("ymdhis").".".$file->getClientOriginalExtension());
+        $ani->photo_url = url('/')."/image/product/".date("ymdhis").".".$file->getClientOriginalExtension();
+        $ani->thumbnail_url = url('/')."/image/product/".date("ymdhis").".".$file->getClientOriginalExtension();
+        $ani->stock = $request->stock;
+        $ani->created_at = Date("Y-m-d H:i:s");
+        $ani->save();
+        return 'Success';
     }
 
     public function update(Request $request)
     {
-        $cust = FarmVariety::find($request->id);
-        $cust->id_animal = $request->result['formName'];
-        $cust->name = $request->result['formVariety'];
-        $cust->save();
-
+        $ani = FarmVariety::find($request->id);
+        $ani->id_farm = $request->farm;
+        $ani->id_variety = $request->variety;
+        $ani->sales_type = $request->sales_type;
+        $ani->price_base = $request->price_base;
+        $ani->price_monthly_incr = $request->price_monthly_incr;
+        $ani->price_insurance = $request->price_insurance;
+        $ani->price_est_sell = $request->price_est_sell;
+        $ani->variety_desc = $request->variety_desc;
+        $file = $request->file('file');
+        $file->move("image/product/", date("ymdhis").".".$file->getClientOriginalExtension());
+        $ani->photo_url = url('/')."/image/product/".date("ymdhis").".".$file->getClientOriginalExtension();
+        $ani->thumbnail_url = url('/')."/image/product/".date("ymdhis").".".$file->getClientOriginalExtension();
+        $ani->stock = $request->stock;
+        $ani->save();
         return 'Success';
     }
 
@@ -55,6 +75,7 @@ class FarmVarietyController extends Controller
     {
         FarmVariety::Destroy($request->result);
         return 'Success';
+//        return $request;
     }
 
     public function allFarm()

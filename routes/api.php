@@ -59,6 +59,7 @@ Route::post('/customerlivestock/report','LivestockController@report');
 Route::post('/customerlivestock/reportdelete','LivestockController@reportDelete');
 Route::post('/customerlivestock/update','LivestockController@update');
 Route::post('/customerlivestock/delete','LivestockController@delete');
+Route::post('/customerlivestock/sell','LivestockController@sell');
 
 Route::get('/transaction','JournalController@all');
 Route::get('/transaction/confirmation','ConfirmationController@all');

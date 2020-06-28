@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Animal;
+use App\Journal;
 use App\Livestock;
 use App\LivestockReport;
+use Cassandra\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -96,5 +98,22 @@ class LivestockController extends Controller
     {
         LivestockReport::destroy($request->result);
         return 'Success';
+    }
+
+    public function sell(Request $request)
+    {
+        $journal = new Journal();
+        $journal->id_user = $request->iduser;
+        $journal->value = $request->amount;
+        $journal->journal_desc = "Penjualan ternak";
+        $journal->created_at = Date("Y-m-d H:i:s");
+        $journal->save();
+
+        $livestock = Livestock::find($request->id);
+        $livestock->id_journal_sold = $journal->id;
+        $livestock->sold_at = Date("Y-m-d H:i:s");
+        $livestock->save();
+
+        return "Success";
     }
 }

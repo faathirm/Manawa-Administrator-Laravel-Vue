@@ -80,7 +80,6 @@
                                                         <p>
                                                             <span class="title is-4">{{ props.row.variety.animal.name+' '+props.row.variety.name }}</span><br>
                                                             {{props.row.farm.name}} - <span class="text-capitalize">{{props.row.sales_type}}</span><br>
-                                                            <hr class="m-1"/>
                                                             {{props.row.variety_desc}}
                                                         </p>
                                                         <b-field grouped group-multiline>
@@ -191,10 +190,10 @@
                         <b-input maxlength="200" v-model="form.variety_desc" type="textarea"></b-input>
                     </b-field>
                     <b-field class="file">
-                        <b-upload v-model="form.photo_url" expanded>
-                            <a class="button is-dark is-fullwidth">
-                                <b-icon icon="camera"></b-icon>
-                                <span>{{ form.photo_url.name || "Click to upload"}}</span>
+                        <b-upload v-model="file" expanded id="file" ref="file" v-on:change="handleFileUpload()">
+                            <a class="button is-primary is-fullwidth">
+                                <b-icon icon="upload"></b-icon>
+                                <span>{{ file.name || "Click to upload"}}</span>
                             </a>
                         </b-upload>
                     </b-field>
@@ -231,6 +230,7 @@
                 //Sidebar
                 open: false,
                 isEdit: false,
+                file: {},
                 //State
                 notMatch: false,
                 currentId: 0,
@@ -271,7 +271,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                axios.get(`http://manawa.akugap.tech/api/farmvariety?${params}`).then(response => {
+                axios.get(`http://localhost:8000/api/farmvariety?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -347,9 +347,19 @@
             },
             addData(){
                 if(this.isEdit){
-                    axios.post('http://manawa.akugap.tech/api/variety/update', {
-                        result: this.form,
-                        id: this.currentId
+                    let formData = new FormData();
+                    formData.append('farm',this.form.farm);
+                    formData.append('variety',this.form.variety);
+                    formData.append('sales_type',this.form.sales_type);
+                    formData.append('price_base',this.form.price_base);
+                    formData.append('price_monthly_incr',this.form.price_monthly_incr);
+                    formData.append('price_insurance',this.form.price_insurance);
+                    formData.append('price_est_sell',this.form.price_est_sell);
+                    formData.append('variety_desc',this.form.variety_desc);
+                    formData.append('stock',this.form.stock);
+                    formData.append('id',this.currentId);
+                    formData.append('file',this.file);
+                    axios.post('http://localhost:8000/api/farmvariety/update', formData, {headers: {'Content-Type': 'multipart/form-data'}
                     }).then(response => {
                         this.clearField()
                         this.open = false;
@@ -358,8 +368,18 @@
                     })
                     //INSERT
                 }else{
-                    axios.post('http://manawa.akugap.tech/api/farmvariety', {
-                        result: this.form
+                    let formData = new FormData();
+                    formData.append('farm',this.form.farm);
+                    formData.append('variety',this.form.variety);
+                    formData.append('sales_type',this.form.sales_type);
+                    formData.append('price_base',this.form.price_base);
+                    formData.append('price_monthly_incr',this.form.price_monthly_incr);
+                    formData.append('price_insurance',this.form.price_insurance);
+                    formData.append('price_est_sell',this.form.price_est_sell);
+                    formData.append('variety_desc',this.form.variety_desc);
+                    formData.append('stock',this.form.stock);
+                    formData.append('file',this.file);
+                    axios.post('http://localhost:8000/api/farmvariety', formData, {headers: {'Content-Type': 'multipart/form-data'}
                     }).then(response => {
                         console.log(response)
                         this.clearField()
@@ -373,21 +393,24 @@
                 this.$buefy.dialog.confirm({
                     title: 'Deleting data',
                     message: 'Are you sure you want to <b>delete</b> this data? This action cannot be undone.',
-                    confirmText: 'Delete Account',
+                    confirmText: 'Delete Data',
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://manawa.akugap.tech/api/variety/delete', {
+                        axios.post('http://localhost:8000/api/farmvariety/delete', {
                             result: id
                         }).then(response => {
+                            console.log(response['status']);
                             this.$buefy.toast.open({message: `Delete Success`, position: 'is-bottom'})
                             this.loadAsyncData()
+                        }).catch(error =>{
+                            this.$buefy.toast.open({message: `Delete Failed`, position: 'is-bottom', type: 'is-danger'})
                         })
                     }
                 })
             },
             getAllAnimal() {
-                axios.get('http://manawa.akugap.tech/api/variety/animal').then(response => {
+                axios.get('http://localhost:8000/api/variety/animal').then(response => {
                     this.allAnimal = response.data;
                 });
             },
@@ -402,15 +425,18 @@
                 }
             },
             getFarm() {
-                axios.get('http://manawa.akugap.tech/api/farmvariety/farm').then(response => {
+                axios.get('http://localhost:8000/api/farmvariety/farm').then(response => {
                     this.allFarm = response.data;
                 });
             },
             getVariety() {
-                axios.get('http://manawa.akugap.tech/api/farmvariety/variety').then(response => {
+                axios.get('http://localhost:8000/api/farmvariety/variety').then(response => {
                     this.allVariety = response.data;
                 });
-            }
+            },
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
         },
         created(){
             this.getFarm();
