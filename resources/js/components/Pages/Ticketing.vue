@@ -2,7 +2,7 @@
     <section>
         <div>
             <div class="row d-flex justify-content-end">
-                <div class="col-md-4">
+                <div class="col-md-4 offset-md-8">
                     <b-field position="is-right">
                         <b-input placeholder="Search..." type="search" icon="magnify" v-model="searchInput"></b-input>
                         <p class="control">
@@ -40,21 +40,21 @@
                         :default-sort="[sortField, sortOrder]"
                         @sort="onSort">
                         <template slot-scope="props">
-                            <b-table-column field="name" label="NAME" cellClass="text-capitalize" sortable>
+                            <b-table-column field="name" label="NAME" cellClass="text-capitalize">
                                 <template v-if="showDetailIcon">
                                     <a @click="toggle(props.row)">
-                                        <avatar username="isye s adhiwinaya" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> Isye S. Adhiwinaya
+                                        <avatar :username="props.row.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.customer.name }}
                                     </a>
                                 </template>
                                 <template v-else>
-                                    <avatar username="isye s adhiwinaya" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> Isye S. Adhiwinaya
+                                    <avatar :username="props.row.customer.name" :size="24" backgroundColor="#e74c3c" color="white" :inline="true"></avatar> {{ props.row.customer.name }}
                                 </template>
                             </b-table-column>
-                            <b-table-column field="name" label="CATEGORY" cellClass="text-capitalize" sortable>
-                                Teknikal
+                            <b-table-column field="category" label="CATEGORY" cellClass="text-capitalize" sortable>
+                                {{ props.row.category }}
                             </b-table-column>
-                            <b-table-column field="name" label="STATUS" cellClass="text-capitalize" sortable>
-                                OPEN
+                            <b-table-column field="status" label="STATUS" cellClass="text-capitalize" sortable>
+                                {{ props.row.status }}
                             </b-table-column>
                         </template>
                         <template slot="detail" slot-scope="props">
@@ -62,21 +62,20 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <div class="row d-flex justify-content-between">
-                                            <div class="col-md-6 d-flex align-items-center">
-                                                <p>Saya punya kendala dalam melakukan pembelian hewan ternak</p>
+                                            <div class="col-md-6">
+                                                <p>{{ props.row.message }}</p>
                                             </div>
                                             <div class="col-md-4 d-flex align-items-center justify-content-end">
                                                 <div>
                                                     <b-field label="Status" label-position="on-border">
                                                         <b-select placeholder="Select status" v-model="statusnya" expanded class="d-block mb-2">
-                                                            <option value="1">Unverify</option>
-                                                            <option value="2">Verify</option>
-                                                            <option value="3">Deny</option>
+                                                            <option value="Process">Process</option>
+                                                            <option value="Done">Done</option>
                                                         </b-select>
                                                     </b-field>
                                                     <div class="buttons has-addons align-self-center">
-                                                        <b-button type="is-dark" icon-left="delete" outlined>Delete Data</b-button>
-                                                        <b-button type="is-dark">Submit</b-button>
+                                                        <b-button type="is-dark" icon-left="delete" @click="deleteData(props.row.id)" outlined>Delete Data</b-button>
+                                                        <b-button @click="addData(props.row.id)" type="is-dark">Submit</b-button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,48 +86,14 @@
                         </template>
                         <template slot="footer">
                             <th class="is-hidden-mobile"/>
-                            <th class="is-hidden-mobile">
-                                <div class="th-wrap">NAME</div>
-                            </th>
-                            <th class="is-hidden-mobile">
-                                <div class="th-wrap">CATEGORY</div>
-                            </th>
-                            <th class="is-hidden-mobile">
-                                <div class="th-wrap">STATUS</div>
-                            </th>
+                            <th class="is-hidden-mobile"><div class="th-wrap">NAME</div></th>
+                            <th class="is-hidden-mobile"><div class="th-wrap">CATEGORY</div></th>
+                            <th class="is-hidden-mobile"><div class="th-wrap">STATUS</div></th>
                         </template>
                     </b-table>
                 </div>
             </div>
         </div>
-        <b-sidebar
-            type="is-light"
-            :fullheight="true"
-            :right="true"
-            :open.sync="open">
-            <div class="has-background-dark is-bold">
-                <template v-if="isEdit">
-                    <div class="p-4">
-                        <p class="title  text-white">Edit Entry</p>
-                        <p class="subtitle is-6  text-white">Edit entry data</p>
-                    </div>
-                </template>
-                <template v-else>
-                    <div class="p-4">
-                        <p class="title  text-white">New Entry</p>
-                        <p class="subtitle is-6  text-white">Enter new data</p>
-                    </div>
-                </template>
-            </div>
-            <div class="p-4">
-                <form @submit.prevent="addData()">
-                    <b-field label="Name" :label-position="'on-border'">
-                        <b-input icon="gitlab" v-model="form.formName" required></b-input>
-                    </b-field>
-                    <button class="btn btn-success btn-block">Submit</button>
-                </form>
-            </div>
-        </b-sidebar>
     </section>
 </template>
 <script>
@@ -153,20 +118,15 @@
                 sortIcon: 'chevron-up',
                 sortIconSize: 'is-small',
                 admins: [],
-                //Sidebar
-                open: false,
-                isEdit: false,
-                //State
-                notMatch: false,
-                currentId: 0,
-                //Form
-                form:{
-                    formName:'',
-                },
                 //DetailedTabel
                 defaultOpenedDetails: [1],
-                showDetailIcon: true
-
+                showDetailIcon: true,
+                //Update
+                idnya:'',
+                statusnya:'',
+                //Modal
+                isImageModalActive: false,
+                modalPhoto:''
             };
         },
         methods: {
@@ -178,8 +138,7 @@
                     `page=${this.page}`
                 ].join('&');
                 this.loading = true;
-                // console.log(`http://manawa.akugap.tech/api/admin?${params}`);
-                axios.get(`http://manawa.akugap.tech/api/animal?${params}`).then(response => {
+                axios.get(`http://manawa.akugap.tech/api/ticketing?${params}`).then(response => {
                     this.admins = response.data["data"];
                     let currentTotal = response.data["total"];
                     if(response.data["total"] / 10 > 1000){
@@ -214,59 +173,29 @@
                 this.searchData = this.searchInput;
                 this.currentPage = 1;
                 this.onPageChange(1);
-                // this.loadAsyncData();
             },
             toggle(row) {
                 this.$refs.table.toggleDetails(row)
             },
-            clearField(){
-                this.form.formName = '';
-            },
-            addForm(){
-                this.isEdit = false
-                this.open = true
-            },
-            editForm(data){
-                console.log(data)
-                this.currentId = data.id
-                this.form.formName = data.name
-                this.isEdit = true
-                this.open = true
-            },
-            addData(){
-                if(this.isEdit){
-                    axios.post('http://manawa.akugap.tech/api/animal/update', {
-                        result: this.form,
-                        id: this.currentId
-                    }).then(response => {
-                        console.log(response)
-                        this.clearField()
-                        this.open = false;
-                        this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
-                        this.loadAsyncData();
-                    })
-                    //INSERT
-                }else{
-                    axios.post('http://manawa.akugap.tech/api/animal', {
-                        result: this.form
-                    }).then(response => {
-                        console.log(response)
-                        this.clearField()
-                        this.open = false;
-                        this.$buefy.toast.open({message: `Submit Success`, position: 'is-bottom'})
-                        this.loadAsyncData();
-                    })
-                }
+            addData(id){
+                axios.post('http://manawa.akugap.tech/api/ticketing/update', {
+                    status: this.statusnya,
+                    id: id
+                }).then(response => {
+                    console.log(response);
+                    this.$buefy.toast.open({message: `Update Success`, position: 'is-bottom'})
+                    this.loadAsyncData();
+                })
             },
             deleteData(id){
                 this.$buefy.dialog.confirm({
                     title: 'Deleting data',
                     message: 'Are you sure you want to <b>delete</b> this data? This action cannot be undone.',
-                    confirmText: 'Delete Account',
+                    confirmText: 'Delete Data',
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-                        axios.post('http://manawa.akugap.tech/api/animal/delete', {
+                        axios.post('http://manawa.akugap.tech/api/ticketing/delete', {
                             result: id
                         }).then(response => {
                             console.log(response)

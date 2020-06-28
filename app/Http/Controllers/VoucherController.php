@@ -30,8 +30,8 @@ class VoucherController extends Controller
         $ani->description = $request->result["formDescription"];
         $ani->amount = $request->result["formAmount"];
         $ani->max_usage = $request->result["formMaxUsage"];
-        $ani->available_at = $request->result["formAvailableAt"];
-        $ani->expired_at = $request->result["formExpiredAt"];
+        $ani->available_at = date("Y-m-d",strtotime($request->available))." 00:00:00";
+        $ani->expired_at = date("Y-m-d",strtotime($request->expired))." 23:59:59";
         $ani->created_at = date("Y-m-d H:i:s");
         $ani->save();
 
@@ -46,8 +46,8 @@ class VoucherController extends Controller
         $cust->description = $request->result["formDescription"];
         $cust->amount = $request->result["formAmount"];
         $cust->max_usage = $request->result["formMaxUsage"];
-        $cust->available_at = $request->result["formAvailableAt"];
-        $cust->expired_at = $request->result["formExpiredAt"];
+        $cust->available_at = date("Y-m-d",strtotime($request->available))." 00:00:00";
+        $cust->expired_at = date("Y-m-d",strtotime($request->expired))." 23:59:59";
         $cust->created_at = date("Y-m-d H:i:s");
         $cust->save();
 

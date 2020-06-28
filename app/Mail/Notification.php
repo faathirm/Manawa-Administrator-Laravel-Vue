@@ -29,6 +29,6 @@ class Notification extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->detail['judul'])->view('mail_notification');
+        return $this->subject('Notifikasi Manawa')->view('mail_notification');
     }
 }
